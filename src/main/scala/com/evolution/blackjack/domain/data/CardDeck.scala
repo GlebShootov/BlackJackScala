@@ -2,7 +2,14 @@ package com.evolution.blackjack.domain.data
 
 import scala.util.Random
 
-final case class CardDeck(cards: List[Card])
+final case class CardDeck(cards: List[Card]) {
+  def takeFirstCards(cardsQuantity: Int): Option[(List[Card], CardDeck)] = {
+    if (cards.size >= cardsQuantity) {
+      val splitTuple = cards.splitAt(cardsQuantity)
+      Some(splitTuple._1, CardDeck(cards = splitTuple._2))
+    } else None
+  }
+}
 
 object CardDeck {
   def getCardDeck(decksQuantity: Int = 1): CardDeck = {

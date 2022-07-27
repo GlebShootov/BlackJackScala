@@ -10,7 +10,7 @@ sealed trait CardValue {
   def cardId: Int
   def cardName: String
 
-  override val toString = s"CardValue.$cardId" // TODO: check
+  override def toString = s"CardValue.$cardId" // TODO: check
 }
 
 object CardValue {
@@ -23,15 +23,13 @@ object CardValue {
   case object `2` extends CardValue {
     val cardId: Int = 2
     val cardName: String = "2"
-
-    override val toString = s"CardValue.$cardName"
   }
 
   case object `3` extends CardValue {
     val cardId: Int = 3
     val cardName: String = "3"
 
-    override val toString = s"CardValue.$cardName"
+    override val toString = s"CardValue.$cardName" // TODO: remove
   }
 
   case object `4` extends CardValue {
