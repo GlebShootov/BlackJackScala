@@ -9,6 +9,8 @@ lazy val root = (project in file("."))
 
 val akkaVersion = "2.6.19"
 val scalaTestVersion = "3.2.12"
+val catsVersion = "2.6.1"
+val catsEffectVersion = "2.5.1"
 
 libraryDependencies ++= Seq(
   "com.typesafe.akka" %% "akka-actor" % akkaVersion,
@@ -16,5 +18,7 @@ libraryDependencies ++= Seq(
   "org.scalatest" %% "scalatest" % scalaTestVersion,
 
   "com.typesafe.akka" %% "akka-persistence-typed" % akkaVersion,
-  "com.typesafe.akka" %% "akka-persistence-testkit" % akkaVersion % Test
+  "com.typesafe.akka" %% "akka-persistence-testkit" % akkaVersion % Test,
+  "org.typelevel" %% "cats-core" % catsVersion,
+  "org.typelevel" %% "cats-effect" % catsEffectVersion
 )
