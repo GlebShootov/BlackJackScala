@@ -8,6 +8,7 @@ import akka.persistence.typed.PersistenceId
 import akka.persistence.typed.scaladsl.{Effect, EventSourcedBehavior, RetentionCriteria}
 import com.evolution.blackjack.domain.data.{Card, CardDeck, PlayerId}
 import com.evolution.blackjack.game.BlackjackTableActor.findNextTurn
+import com.evolution.blackjack.game.command_handler.{GameCommandHandler, JoinGameCommandHandler}
 import com.evolution.blackjack.game.data.{HandData, HandId, HandScoreData, PlayerHandsData, PlayerTurnData, PlayersTurnOption}
 
 import java.util.UUID
@@ -17,8 +18,8 @@ import scala.concurrent.duration.{DurationInt, FiniteDuration}
 
 object BlackjackTableActor {
 
-  private val placeBetTimeoutDuration: FiniteDuration = 30.seconds // TODO: settings
-  private val startGameDelayDuration: FiniteDuration = 10.seconds // TODO: settings
+  val placeBetTimeoutDuration: FiniteDuration = 30.seconds // TODO: settings
+  val startGameDelayDuration: FiniteDuration = 10.seconds // TODO: settings
 
   type Seats = SortedMap[Int, Option[PlayerId]] // TODO: extract to somewhere
 
@@ -109,6 +110,7 @@ object BlackjackTableActor {
         EventSourcedBehavior[Command, Event, State](
           PersistenceId("BlackjackGame", tableId),
           AwaitingPlayersState,
+
           (state, command) => commandHandler(state, command, ctx, timer), // TODO extract to package command_handlers with interface of command handlers and implementations
           (state, event) => eventHandler(state, event, ctx, timer))
           .withRetention(RetentionCriteria.snapshotEvery(numberOfEvents = 100, keepNSnapshots = 3))
@@ -119,7 +121,15 @@ object BlackjackTableActor {
 
 
 
-
+//  private def commandHandler2(state: State, command: Command,
+//                              ctx: ActorContext[Command], timer: TimerScheduler[Command]): Effect[Event, State] = {
+////    GameCommandHandler(state, command, ctx, timer)
+//    command match {
+//      case JoinGame(playerId, seatId, replyTo) => {
+//        JoinGameCommandHandler.validateCommand()
+//      }
+//    }
+//  }
 
 
 
@@ -133,6 +143,8 @@ object BlackjackTableActor {
 
   private def commandHandler(state: State, command: Command,
                              ctx: ActorContext[Command], timer: TimerScheduler[Command]): Effect[Event, State] = {
+//    ctx.pipeToSelf()
+
     state match {
       case AwaitingPlayersState => awaitingPlayersCommandHandler(state, command, ctx, timer)
       case placeBetsState : PlaceBetsState => placingBetsCommandHandler(placeBetsState, command, ctx, timer)

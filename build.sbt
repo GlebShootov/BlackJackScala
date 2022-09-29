@@ -12,6 +12,8 @@ val scalaTestVersion = "3.2.12"
 val catsVersion = "2.6.1"
 val catsEffectVersion = "2.5.1"
 
+//addSbtPlugin("com.evolution" % "sbt-artifactory-plugin" % "0.0.2")
+
 libraryDependencies ++= Seq(
   "com.typesafe.akka" %% "akka-actor" % akkaVersion,
   "com.typesafe.akka" %% "akka-testkit" % akkaVersion,
@@ -20,5 +22,6 @@ libraryDependencies ++= Seq(
   "com.typesafe.akka" %% "akka-persistence-typed" % akkaVersion,
   "com.typesafe.akka" %% "akka-persistence-testkit" % akkaVersion % Test,
   "org.typelevel" %% "cats-core" % catsVersion,
-  "org.typelevel" %% "cats-effect" % catsEffectVersion
+  "org.typelevel" %% "cats-effect" % catsEffectVersion,
+  "com.evolutiongaming" %% "cats-helper" % "2.7.7"
 )

@@ -2,6 +2,7 @@ package com.evolution.blackjack.game.data
 
 import com.evolution.blackjack.domain.data.{Card, CardDeck, PlayerId}
 
+@Deprecated
 object BlackjackTableActorBehaviorData {
 
   sealed trait BehaviorData
